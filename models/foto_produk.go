@@ -5,11 +5,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type FotoProduk struct {
+type ProductPhotos struct {
 	gorm.Model
-	ID		uint	`gorm:"primaryKey;autoIncrement" json:"id"`
-	URL		string	`json:"url"`
-	IDProduk	Produk	`gorm:"foreignKey:ID;not null" json:"id_produk"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	ID        uint      `gorm:"primaryKey"`
+	ProductID  uint      `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;foreignKey:ProductID"`
+	URL       string    `gorm:"size:255"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

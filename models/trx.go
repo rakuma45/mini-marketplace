@@ -5,16 +5,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type Transaksi struct {
+type Trx struct {
 	gorm.Model
-	ID        uint      `gorm:"primaryKey;autoIncrement" json:"id"`
-	IDUser		User	`gorm:"foreignKey:ID" json:"id_user"`
-	AlamatPengiriman	Alamat	`gorm:"foreignKey:ID" json:"alamat_pengiriman"`
-	HargaTotal int		`json:"harga_total"`
-	KodeInvoice	string	`json:"kode_invoice"`
-	MethodBayar	string	`json:"method_bayar"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-
-	Toko Toko `gorm:"foreignKey:IDToko;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"toko"`
+	ID               uint         `gorm:"primaryKey"`
+	UserID           uint         `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;foreignKey:UserID"`
+	ShippingAddress uint         `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;foreignKey:ID"`
+	TotalPrice       int
+	InvoiceID      string       `gorm:"size:255"`
+	Payment      string       `gorm:"size:255"`
+	DetailTrx  []DetailTrx  `gorm:"foreignKey:TrxID"`
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
 }	

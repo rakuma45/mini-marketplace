@@ -5,14 +5,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type Alamat struct {
+type Address struct {
 	gorm.Model
-	ID           uint      `gorm:"primaryKey;autoIncrement" json:"id"`
-	IDUser       User      `gorm:"foreignKey:ID;not null" json:"id_user"`
-	JudulAlamat  string    `gorm:"not null" json:"judul_alamat"`
-	NamaPenerima string    `gorm:"not null" json:"nama_penerima"`
-	NoTelp       string    `gorm:"not null" json:"no_telp"`
-	DetailAlamat string    `gorm:"not null" json:"detail_alamat"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	ID             uint      `gorm:"primaryKey"`
+	UserID         uint      `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;foreignKey:UserID"`
+	Address    string    `gorm:"size:255"`
+	Receiver   string    `gorm:"size:255"`
+	Phone         string    `gorm:"size:255"`
+	AddressDetail   string    `gorm:"size:255"`
+	Trx      []Trx     `gorm:"foreignKey:ShippingAddress"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 }

@@ -1,11 +1,12 @@
 package main
 
 import (
+	"os"
 	"log"
-	"github.com/gofiber/fiber/v3"
 	"mini-marketplace/db"
+	"mini-marketplace/routes"
+	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
-
 )
 
 func main() {
@@ -17,11 +18,14 @@ func main() {
 	}
 
 	db.ConnectDB()
+	db.RunMigration()
 
-	// Setup routes
-	app.Get("/", func(c fiber.Ctx) error {
-  		return c.SendString("Hello, World!")
- 	})
+	// Inisialisasi JWT secret
+	jwtSecret := []byte(os.Getenv("JWT_SECRET"))
+
+	// Setup Routes
+	routes.SetupRoutes(app, db.DB, jwtSecret)
+	routes.ProfileRoutes(app)
 
 	// Start server
 	log.Fatal(app.Listen(":8080"))

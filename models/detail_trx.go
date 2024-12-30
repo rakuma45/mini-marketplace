@@ -5,14 +5,14 @@ import (
 	"gorm.io/gorm"
 )
 
-type DetailTransaksi struct {
+type DetailTrx struct {
 	gorm.Model
-	ID	uint	`gorm:"primaryKey;autoIncrement" json:"id"`
-	IDTrx	Transaksi	`gorm:"foreignKey:ID" json:"id_trx"`
-	IDLogProduk	LogProduk	`gorm:""`
-	IDToko	Toko	`gorm:"foreignKey:ID;not null" json:"id_toko"`
-	Kuantitas	int	`gorm:"not null" json:"kuantitas"`
-	HargaTotal	int	`gorm:"not null" json:"harga_total"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	ID           uint      `gorm:"primaryKey"`
+	TrxID        uint      `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;foreignKey:TrxID"`
+	ProductLogID  uint      `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;foreignKey:LogProductID"`
+	ShopID       uint      `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;foreignKey:ShopID"`
+	Qty    		int
+	TotalPrice   int
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
